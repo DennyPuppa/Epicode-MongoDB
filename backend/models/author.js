@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const authorsSchema = new mongoose.Schema({
     name: {
         type: 'string',
@@ -20,3 +22,6 @@ const authorsSchema = new mongoose.Schema({
         required: true
     }
 })
+
+const authorsModel = mongoose.model('Authors', authorsSchema);
+module.exports = authorsModel;

@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const blogPostSchema = new mongoose.Schema({
     category: {
         type: 'string',
@@ -32,3 +34,6 @@ const blogPostSchema = new mongoose.Schema({
         required: true
     }
 })
+
+const blogPostModel = mongoose.model('BlogPost', blogPostSchema);
+module.exports = blogPostModel;
