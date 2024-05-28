@@ -3,6 +3,8 @@ const router = express.Router();
 
 const blogPostModel = require('../../models/blogPost');
 
+const validateBody = require('../../middlewares/validate_post')
+
 router.get('/blogpost', async (req, res) => {
     const blogPost = await blogPostModel.find();
     res.status(200).json(blogPost);
@@ -18,7 +20,7 @@ router.get('/blogpost/:id', async (req, res) => {
     }
 })
 
-router.post('/blogpost', async (req, res) => {
+router.post('/blogpost', validateBody, async (req, res) => {
     const obj = req.body;
     try {
         const newBlogArticle = new blogPostModel(obj)

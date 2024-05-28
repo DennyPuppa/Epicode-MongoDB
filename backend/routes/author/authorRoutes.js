@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+//model
 const authorsModel = require('../../models/author');
+
+//middlewares
+const validateBody = require('../../middlewares/validate_user')
 
 router.get('/', (req, res) => {
     res.json({
@@ -25,7 +29,7 @@ router.get('/authors/:id', async (req, res, next) => {
     }
 })
 
-router.post('/authors', async (req, res, next) => {
+router.post('/authors', validateBody, async (req, res, next) => {
     const obj = req.body;
     try {
         const newAuthors = new authorsModel(obj);

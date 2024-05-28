@@ -6,33 +6,31 @@ require('dotenv').config()
 
 const app = express();
 const port = 3030;
-const dbName = 'test';
+
 const upload = multer({ dest: 'uploads/' }) //cartella di destinazione per i file caricati su server
 
+const start = require('./db')
+start()
+
 //middleware
+const logger = require('./middlewares/logger');
+
 app.use(cors())
 app.use(express.json())
+app.use(logger)
 
 const error = require('./middlewares/error');
 
 const authorRoutes = require('./routes/author/authorRoutes');
-const blogPostRoutes = require('./routes/blogPost/blogRoutes')
-app.use(authorRoutes);
-app.use(blogPostRoutes);
+const blogPostRoutes = require('./routes/blogPost/blogRoutes');
+const loginRoutes = require('./routes/login');
+
+app.use('/', authorRoutes);
+app.use('/', blogPostRoutes);
+app.use('/', loginRoutes);
 
 app.use(error.errorHandler);
 
-const start = async () => {
-    try {
-
-        //connection string
-        await mongoose.connect(process.env.MONGO_DB + dbName)
-        app.listen(port, () => {
-            console.log(`Example app listening on port ${port}`)
-        })
-
-    } catch (err) {
-        console.error(err)
-    }
-}
-start();
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+})

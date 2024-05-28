@@ -2,26 +2,29 @@ const mongoose = require('mongoose');
 
 const authorsSchema = new mongoose.Schema({
     name: {
-        type: 'string',
-        required: true
+        type: String,
+        required: true,
+        min: 3,
+        max: 50
     },
     lastName: {
-        type: 'string',
-        required: true
+        type: String,
+        required: true,
+        min: 3
     },
     email: {
-        type: 'string',
+        type: String,
         required: true
     },
     date: {
-        type: 'string',
+        type: String,
         required: true
     },
     avatar: {
-        type: 'string',
+        type: String,
         required: true
     }
-})
+}, {timestamps: true, strict: true})
 
 const authorsModel = mongoose.model('Authors', authorsSchema);
 module.exports = authorsModel;
