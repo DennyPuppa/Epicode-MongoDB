@@ -67,8 +67,9 @@ const Login = () => {
                                 placeholder="Enter password"
                             />
                         </div>
-                        <button type="submit" className="btn btn-primary">Sign In</button>
+                        <button type="submit" className="btn btn-primary w-100 my-2">Sign In</button>
                     </form>
+                    <a href="http://localhost:3030/auth/googleLogin" className="btn btn-dark my-2">Sign In with Google</a>
                 </div>
             </div>
         </div>

@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const multer  = require('multer')
+const multer  = require('multer');
+const passport = require('passport');
 require('dotenv').config()
+
 
 const app = express();
 const port = 3030;
@@ -14,17 +16,19 @@ start()
 
 //middleware
 const logger = require('./middlewares/logger');
+const googleStrategy = require('./middlewares/authGoogleMiddleware');
 
 app.use(cors())
 app.use(express.json())
 app.use(logger)
+passport.use('google', googleStrategy)
 
 // const error = require('./middlewares/error');
 
 const authorRoutes = require('./routes/author/authorRoutes');
 const blogPostRoutes = require('./routes/blogPost/blogRoutes');
 const loginRoutes = require('./routes/login');
-const emailRoutes = require('./routes/email/sendEmail')
+const emailRoutes = require('./routes/email/sendEmail');
 
 app.use('/', authorRoutes);
 app.use('/', blogPostRoutes);
