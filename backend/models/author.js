@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const authorsSchema = new mongoose.Schema({
     name: {
@@ -14,6 +15,11 @@ const authorsSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
         required: true
     },
     date: {
@@ -22,9 +28,24 @@ const authorsSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        required: true
+        required: false,
+        default: 'https://picsum.photos/100'
     }
 }, {timestamps: true, strict: true})
+
+authorsSchema.pre('save', async function(next){
+    const password = this.password;
+    if(password){
+        try {
+            const salt = await bcrypt.genSalt(10)
+            const hashedPassword = await bcrypt.hash(this.password, salt);
+            this.password = hashedPassword;
+            next();
+        } catch (error) {
+            next(error)
+        }
+    }
+})
 
 const authorsModel = mongoose.model('Authors', authorsSchema);
 module.exports = authorsModel;

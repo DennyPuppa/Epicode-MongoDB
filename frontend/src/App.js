@@ -1,32 +1,23 @@
-import './App.css';
-import {useEffect, useState} from 'react'
+import HomePage from "./pages/HomePage";
+import RegistrationPage from "./pages/Registration";
+import Login from "./pages/Login";
+import ErrorPage from "./pages/ErrorPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BlogPostPage from "./pages/BlogPost";
 
-function App() {
+const App = () => {
 
-  const [authors, setAuthors] = useState([])
-
-  const authorsData = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BASEURL}/authors`)
-      const data = await response.json()
-      setAuthors(data)
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(()=>{
-    authorsData()
-  }, [])
-
-  return (
-    <div>
-      {authors.map(author => (
-        <p>{author.name}</p>
-      ))}
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route index element={<HomePage />} />
+                <Route path="/registrazione" element={<RegistrationPage />} />
+                <Route path="/login" element={<Login/>} />
+                <Route path="/pubblica" element={<BlogPostPage/>} />
+                <Route path="*" element={<ErrorPage />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;

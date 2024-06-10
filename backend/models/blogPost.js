@@ -1,4 +1,10 @@
 const mongoose = require('mongoose');
+const commentsSchema = new mongoose.Schema({
+    comment:{
+        type: 'string',
+        required:true,
+        }
+},{timestamps:true,strict:true}) 
 
 const blogPostSchema = new mongoose.Schema({
     category: {
@@ -32,8 +38,11 @@ const blogPostSchema = new mongoose.Schema({
     content: {
         type: String,
         required: true
-    }
+    },
+    comments:[commentsSchema]
 }, {timestamps: true, strict: true})
 
-const blogPostModel = mongoose.model('BlogPost', blogPostSchema);
-module.exports = blogPostModel;
+module.exports = {
+    blogPostSchema: mongoose.model('BlogPost',blogPostSchema),
+    commentsSchema: mongoose.model('commentsSchema', commentsSchema)
+}
